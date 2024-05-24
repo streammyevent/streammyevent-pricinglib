@@ -1,10 +1,11 @@
 {
   "name": "streammyevent-pricinglib",
-  "module": "index.ts",
+  "module": "bundle.js",
   "type": "module",
   "private": true,
   "scripts": {
-    "test": "bun test"
+    "test": "bun test",
+    "build": "bun build ./index.ts --outfile=bundle.js"
   },
   "devDependencies": {
     "@types/bun": "latest"
