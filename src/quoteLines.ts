@@ -3,7 +3,7 @@ import { FactorGroup } from './pricing';
 import { Price, Cost } from './pricing';
 import { UniqueObject } from './uniqueObject';
 import { generateId } from './uniqueObject';
-import { serializable, object, list, reference } from 'serializr';
+import { serializable, object, list, reference, raw } from 'serializr';
 
 export class QuoteLineItem extends Cost {
 	@serializable
@@ -20,7 +20,8 @@ export class QuoteLineItem extends Cost {
 	@serializable
 	multiplierType?: string;
 
-	meta?: any;
+	@serializable(raw())
+	meta?: { [key: string]: string | number | boolean | undefined };
 
 	constructor(options: Partial<QuoteLineItem> = {}) {
 		super(options);

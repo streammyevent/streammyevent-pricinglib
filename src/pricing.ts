@@ -1,4 +1,4 @@
-import { serializable, object, list, identifier, reference } from 'serializr';
+import { serializable, object, list, identifier, reference, primitive } from 'serializr';
 
 export class Price {
 	@serializable
@@ -28,10 +28,8 @@ export class Price {
 }
 
 export class Factor {
-	@serializable
-	from: number = 0;
-	@serializable
-	to: number = 1000000;
+	@serializable(list(primitive()))
+	range: [number, number] = [0, Infinity];
 	@serializable
 	factor: number = 1;
 
@@ -39,6 +37,7 @@ export class Factor {
 		Object.assign(this, options);
 	}
 }
+
 
 export class FactorGroup {
 	@serializable(identifier())
@@ -49,6 +48,21 @@ export class FactorGroup {
 
 	constructor(options: Partial<FactorGroup> = {}) {
 		Object.assign(this, options);
+	}
+
+	// Example to get the multiplier. For each range in the factors array,
+	// multiply each number in the 
+	getFactor(multiplier: number): number {
+		let totalFactor = 0;
+		for (let step = 0; step < multiplier; step++) {
+			for (const factor of this.factors) {
+				if (step >= factor.range[0] && step < factor.range[1]) {
+					totalFactor += factor.factor;
+					break;
+				}
+			}
+		}
+		return Number(totalFactor.toPrecision(4))
 	}
 }
 
@@ -86,16 +100,7 @@ export class Cost {
 		if (!this.factorGroup) {
 			return this.multiplier;
 		}
-		let closestFactor = this.factorGroup.factors[0];
-		for (let i = 1; i < this.factorGroup.factors.length; i++) {
-			if (
-				Math.abs(this.multiplier - this.factorGroup.factors[i].from) <
-				Math.abs(this.multiplier - closestFactor.from)
-			) {
-				closestFactor = this.factorGroup.factors[i];
-			}
-		}
-		return closestFactor.factor;
+		return this.factorGroup.getFactor(this.multiplier);
 	}
 
 	get subtotalBeforeMultiplier(): Price {

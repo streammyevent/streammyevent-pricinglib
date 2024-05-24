@@ -4,9 +4,9 @@ import { Times } from './times';
 import { Price } from './pricing';
 import { QuoteLineItem, QuoteLineItemGroup } from './quoteLines';
 
-import { serialize, deserialize, serializable, list, object } from 'serializr';
+import { serialize, deserialize, serializable, list, object, map } from 'serializr';
 
-export class QuoteContentsCategory {
+export class ProjectContentsCategory {
 	@serializable
 	name: string = '';
 
@@ -16,7 +16,7 @@ export class QuoteContentsCategory {
 	@serializable(list(object(QuoteLineItemGroup)))
 	groups: QuoteLineItemGroup<QuoteLineItem>[] = [];
 
-	constructor(options: Partial<QuoteContentsCategory> = {}) {
+	constructor(options: Partial<ProjectContentsCategory> = {}) {
 		Object.assign(this, options);
 	}
 
@@ -46,34 +46,34 @@ export class QuoteContentsCategory {
 	}
 }
 
-export class ProjectContents {
-	@serializable(object(QuoteContentsCategory))
-	billables: QuoteContentsCategory = new QuoteContentsCategory({ name: 'billables', icon: '🕰️' });
+// export class ProjectContents {
+// 	@serializable(object(ProjectContentsCategory))
+// 	billables: ProjectContentsCategory = new ProjectContentsCategory({ name: 'billables', icon: '🕰️' });
 
-	@serializable(object(QuoteContentsCategory))
-	equipment: QuoteContentsCategory = new QuoteContentsCategory({ name: 'equipment', icon: '🔧' });
+// 	@serializable(object(ProjectContentsCategory))
+// 	equipment: ProjectContentsCategory = new ProjectContentsCategory({ name: 'equipment', icon: '🔧' });
 
-	@serializable(object(QuoteContentsCategory))
-	transport: QuoteContentsCategory = new QuoteContentsCategory({ name: 'transport', icon: '🚚' });
+// 	@serializable(object(ProjectContentsCategory))
+// 	transport: ProjectContentsCategory = new ProjectContentsCategory({ name: 'transport', icon: '🚚' });
 
-	@serializable(object(QuoteContentsCategory))
-	crew: QuoteContentsCategory = new QuoteContentsCategory({
-		name: 'crew',
-		icon: '👷'
-	});
+// 	@serializable(object(ProjectContentsCategory))
+// 	crew: ProjectContentsCategory = new ProjectContentsCategory({
+// 		name: 'crew',
+// 		icon: '👷'
+// 	});
 
-	@serializable(object(QuoteContentsCategory))
-	travel: QuoteContentsCategory = new QuoteContentsCategory({
-		name: 'travel',
-		icon: '✈️'
-	});
+// 	@serializable(object(ProjectContentsCategory))
+// 	travel: ProjectContentsCategory = new ProjectContentsCategory({
+// 		name: 'travel',
+// 		icon: '✈️'
+// 	});
 
-	@serializable(object(QuoteContentsCategory))
-	other: QuoteContentsCategory = new QuoteContentsCategory({
-		name: 'other',
-		icon: '📝'
-	});
-}
+// 	@serializable(object(ProjectContentsCategory))
+// 	other: ProjectContentsCategory = new ProjectContentsCategory({
+// 		name: 'other',
+// 		icon: '📝'
+// 	});
+// }
 
 export class Project extends UniqueObject {
 	@serializable
@@ -88,8 +88,8 @@ export class Project extends UniqueObject {
 	@serializable(list(object(Times)))
 	schedule: Times[] = [];
 
-	@serializable(object(ProjectContents))
-	contents: ProjectContents = new ProjectContents();
+	@serializable(map(object(ProjectContentsCategory)))
+	contents: { [key: string]: ProjectContentsCategory } = {}
 
 	constructor(options: Partial<Project> = {}) {
 		super(options);
