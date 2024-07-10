@@ -46,45 +46,7 @@ export class ProjectContentsCategory {
 	}
 }
 
-// export class ProjectContents {
-// 	@serializable(object(ProjectContentsCategory))
-// 	billables: ProjectContentsCategory = new ProjectContentsCategory({ name: 'billables', icon: '🕰️' });
-
-// 	@serializable(object(ProjectContentsCategory))
-// 	equipment: ProjectContentsCategory = new ProjectContentsCategory({ name: 'equipment', icon: '🔧' });
-
-// 	@serializable(object(ProjectContentsCategory))
-// 	transport: ProjectContentsCategory = new ProjectContentsCategory({ name: 'transport', icon: '🚚' });
-
-// 	@serializable(object(ProjectContentsCategory))
-// 	crew: ProjectContentsCategory = new ProjectContentsCategory({
-// 		name: 'crew',
-// 		icon: '👷'
-// 	});
-
-// 	@serializable(object(ProjectContentsCategory))
-// 	travel: ProjectContentsCategory = new ProjectContentsCategory({
-// 		name: 'travel',
-// 		icon: '✈️'
-// 	});
-
-// 	@serializable(object(ProjectContentsCategory))
-// 	other: ProjectContentsCategory = new ProjectContentsCategory({
-// 		name: 'other',
-// 		icon: '📝'
-// 	});
-// }
-
 export class Project extends UniqueObject {
-	@serializable
-	name: string = '';
-
-	@serializable
-	description: string = '';
-
-	@serializable
-	owner: string = '';
-
 	@serializable(list(object(Times)))
 	schedule: Times[] = [];
 
@@ -121,8 +83,6 @@ export class Project extends UniqueObject {
 
 	get metadata() {
 		return {
-			name: this.name,
-			owner: this.owner,
 			total: this.total.formatted,
 			crewDays: this.contents.crew?.sumLineItemValue('totalQuantity') || 0,
 			billableHours: this.contents.billables?.sumLineItemValue('totalQuantity') || 0
