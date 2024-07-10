@@ -1089,8 +1089,8 @@ __legacyDecorateClassTS([
   serializable(list(object(QuoteLineItem)))
 ], QuoteLineItemGroup.prototype, "lineItems", undefined);
 
-// src/project.ts
-class ProjectContentsCategory {
+// src/quote.ts
+class QuoteContentsCategory {
   constructor(options = {}) {
     this.name = "";
     this.icon = "";
@@ -1117,20 +1117,17 @@ class ProjectContentsCategory {
 }
 __legacyDecorateClassTS([
   serializable
-], ProjectContentsCategory.prototype, "name", undefined);
+], QuoteContentsCategory.prototype, "name", undefined);
 __legacyDecorateClassTS([
   serializable
-], ProjectContentsCategory.prototype, "icon", undefined);
+], QuoteContentsCategory.prototype, "icon", undefined);
 __legacyDecorateClassTS([
   serializable(list(object(QuoteLineItemGroup)))
-], ProjectContentsCategory.prototype, "groups", undefined);
+], QuoteContentsCategory.prototype, "groups", undefined);
 
-class Project extends UniqueObject {
+class Quote extends UniqueObject {
   constructor(options = {}) {
     super(options);
-    this.name = "";
-    this.description = "";
-    this.owner = "";
     this.schedule = [];
     this.contents = {};
     Object.assign(this, options);
@@ -1143,19 +1140,17 @@ class Project extends UniqueObject {
     return new Price(total, "EUR");
   }
   serialize() {
-    return JSON.stringify(serialize(Project, this), null, 2);
+    return JSON.stringify(serialize(Quote, this), null, 2);
   }
   static deserialize(input) {
     const unstringified = JSON.parse(input);
-    return deserialize(Project, unstringified);
+    return deserialize(Quote, unstringified);
   }
   deepClone() {
-    return Project.deserialize(this.serialize());
+    return Quote.deserialize(this.serialize());
   }
   get metadata() {
     return {
-      name: this.name,
-      owner: this.owner,
       total: this.total.formatted,
       crewDays: this.contents.crew?.sumLineItemValue("totalQuantity") || 0,
       billableHours: this.contents.billables?.sumLineItemValue("totalQuantity") || 0
@@ -1163,28 +1158,19 @@ class Project extends UniqueObject {
   }
 }
 __legacyDecorateClassTS([
-  serializable
-], Project.prototype, "name", undefined);
-__legacyDecorateClassTS([
-  serializable
-], Project.prototype, "description", undefined);
-__legacyDecorateClassTS([
-  serializable
-], Project.prototype, "owner", undefined);
-__legacyDecorateClassTS([
   serializable(list(object(Times)))
-], Project.prototype, "schedule", undefined);
+], Quote.prototype, "schedule", undefined);
 __legacyDecorateClassTS([
-  serializable(map(object(ProjectContentsCategory)))
-], Project.prototype, "contents", undefined);
+  serializable(map(object(QuoteContentsCategory)))
+], Quote.prototype, "contents", undefined);
 export {
   generateId,
   UniqueObject,
   Times,
   QuoteLineItemGroup,
   QuoteLineItem,
-  ProjectContentsCategory,
-  Project,
+  QuoteContentsCategory,
+  Quote,
   Price,
   FactorGroup,
   Factor,
