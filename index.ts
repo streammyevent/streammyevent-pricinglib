@@ -1,5 +1,5 @@
 import { Price, Factor, FactorGroup, Cost } from "./src/pricing";
-import { Project, ProjectContentsCategory } from "./src/project";
+import { Quote, QuoteContentsCategory } from "./src/quote";
 import { QuoteLineItem, QuoteLineItemGroup } from "./src/quoteLines";
 import { Times } from "./src/times";
 import { UniqueObject, generateId } from "./src/uniqueObject";
@@ -9,8 +9,8 @@ export {
 	Factor,
 	FactorGroup,
 	Cost,
-	Project,
-	ProjectContentsCategory,
+	Quote,
+	QuoteContentsCategory,
 	QuoteLineItem,
 	QuoteLineItemGroup,
 	Times,

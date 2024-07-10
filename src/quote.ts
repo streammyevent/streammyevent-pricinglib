@@ -6,7 +6,7 @@ import { QuoteLineItem, QuoteLineItemGroup } from './quoteLines';
 
 import { serialize, deserialize, serializable, list, object, map } from 'serializr';
 
-export class ProjectContentsCategory {
+export class QuoteContentsCategory {
 	@serializable
 	name: string = '';
 
@@ -16,7 +16,7 @@ export class ProjectContentsCategory {
 	@serializable(list(object(QuoteLineItemGroup)))
 	groups: QuoteLineItemGroup<QuoteLineItem>[] = [];
 
-	constructor(options: Partial<ProjectContentsCategory> = {}) {
+	constructor(options: Partial<QuoteContentsCategory> = {}) {
 		Object.assign(this, options);
 	}
 
@@ -46,14 +46,14 @@ export class ProjectContentsCategory {
 	}
 }
 
-export class Project extends UniqueObject {
+export class Quote extends UniqueObject {
 	@serializable(list(object(Times)))
 	schedule: Times[] = [];
 
-	@serializable(map(object(ProjectContentsCategory)))
-	contents: { [key: string]: ProjectContentsCategory } = {}
+	@serializable(map(object(QuoteContentsCategory)))
+	contents: { [key: string]: QuoteContentsCategory } = {}
 
-	constructor(options: Partial<Project> = {}) {
+	constructor(options: Partial<Quote> = {}) {
 		super(options);
 		Object.assign(this, options);
 	}
@@ -69,16 +69,16 @@ export class Project extends UniqueObject {
 	}
 
 	serialize() {
-		return JSON.stringify(serialize(Project, this), null, 2);
+		return JSON.stringify(serialize(Quote, this), null, 2);
 	}
 
 	static deserialize(input: string) {
 		const unstringified = JSON.parse(input);
-		return deserialize(Project, unstringified) as unknown as Project;
+		return deserialize(Quote, unstringified) as unknown as Quote;
 	}
 
 	deepClone() {
-		return Project.deserialize(this.serialize());
+		return Quote.deserialize(this.serialize());
 	}
 
 	get metadata() {
