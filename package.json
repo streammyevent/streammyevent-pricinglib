@@ -1,7 +1,7 @@
 {
   "name": "streammyevent-pricinglib",
   "module": "./bundle.js",
-  "main": "./index.ts",
+  "main": "./bundle.js",
   "type": "module",
   "private": true,
   "files": [
