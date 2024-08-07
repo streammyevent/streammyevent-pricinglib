@@ -5,7 +5,9 @@
   "type": "module",
   "private": true,
   "files": [
-    "bundle.js"
+    "bundle.js",
+    "index.ts",
+    "./src"
   ],
   "scripts": {
     "test": "bun test",
