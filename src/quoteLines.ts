@@ -18,7 +18,7 @@ export class QuoteLineItem extends Cost {
 	end?: Times;
 
 	@serializable
-	multiplierType?: string;
+	multiplierType?: 'days' | 'nights';
 
 	@serializable(raw())
 	meta?: { [key: string]: string | number | boolean | undefined };

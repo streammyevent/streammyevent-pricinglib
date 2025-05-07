@@ -773,12 +773,15 @@ var defaultRegisterFunction = function(id, value, context) {
 
 // src/pricing.ts
 class Price {
-  constructor(value = 0, unit = "EUR") {
+  formatter;
+  constructor(value = 0, unit = "EUR", locale = "en-US") {
     this.unit = unit;
     this.value = value;
+    this.locale = locale;
+    this.formatter = new Intl.NumberFormat(locale, { style: "currency", currency: unit });
   }
   get formatted() {
-    return new Intl.NumberFormat("en-US", { style: "currency", currency: this.unit }).format(this.value);
+    return this.formatter.format(this.value);
   }
   toString() {
     return this.formatted;
@@ -793,6 +796,9 @@ __legacyDecorateClassTS([
 __legacyDecorateClassTS([
   serializable
 ], Price.prototype, "value", undefined);
+__legacyDecorateClassTS([
+  serializable
+], Price.prototype, "locale", undefined);
 
 class Factor {
   constructor(options = {}) {

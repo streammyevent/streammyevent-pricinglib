@@ -7,13 +7,20 @@ export class Price {
 	@serializable
 	value: number;
 
-	constructor(value: number = 0, unit: string = 'EUR') {
+	@serializable
+	locale: string;
+
+	formatter: Intl.NumberFormat;
+
+	constructor(value: number = 0, unit: string = 'EUR', locale: string = 'en-US') {
 		this.unit = unit;
 		this.value = value;
+		this.locale = locale;
+		this.formatter = new Intl.NumberFormat(locale, { style: 'currency', currency: unit });
 	}
 
 	get formatted() {
-		return new Intl.NumberFormat('en-US', { style: 'currency', currency: this.unit }).format(
+		return this.formatter.format(
 			this.value
 		);
 	}
